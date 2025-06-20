@@ -107,7 +107,7 @@ booksRoute.delete('/:bookId', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "something went wrong",
             error
         });
     }
