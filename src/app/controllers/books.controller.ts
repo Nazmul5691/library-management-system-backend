@@ -96,7 +96,8 @@ booksRoute.delete('/:bookId', async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
 
-        await Books.findByIdAndDelete(bookId);
+        // await Books.findByIdAndDelete(bookId);
+        await Books.findOneAndDelete({_id: bookId})
 
         res.status(200).json({
             success: true,

@@ -78,5 +78,18 @@ booksSchema.statics.borrowBook = async function (bookId: string, quantity: numbe
 }
 
 
+booksSchema.pre("findOneAndDelete", async function(next){
+    const bookId = this.getQuery()._id;
+    console.log(`Delete the book with id: ${bookId}`);
+    next();
+})
+
+booksSchema.post("findOneAndDelete", async function(doc, next){
+    if(doc){
+        console.log(`Deleted book ${doc.title}`);
+    }
+    next();
+})
+
 
 export const Books = mongoose.model<IBookDocument, IBookModel>("Books", booksSchema)
