@@ -12,16 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.borrowRoute = void 0;
+exports.getBorrow = exports.createBorrow = exports.borrowRoute = void 0;
 const express_1 = __importDefault(require("express"));
 const borrow_model_1 = require("../models/borrow.model");
 const books_model_1 = require("../models/books.model");
 exports.borrowRoute = express_1.default.Router();
 // borrow a book
-exports.borrowRoute.post('/borrow-book', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createBorrow = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { book, quantity, dueDate } = req.body;
-        const updateBook = yield books_model_1.Books.borrowBook(book, quantity);
+        const updateBookAvailability = yield books_model_1.Books.borrowBook(book, quantity);
         const borrow = yield borrow_model_1.Borrow.create({ book, quantity, dueDate });
         res.status(201).json({
             success: true,
@@ -32,9 +32,10 @@ exports.borrowRoute.post('/borrow-book', (req, res, next) => __awaiter(void 0, v
     catch (error) {
         next(error);
     }
-}));
+});
+exports.createBorrow = createBorrow;
 // books borrow summary
-exports.borrowRoute.get('/summary', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getBorrow = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const summary = yield borrow_model_1.Borrow.aggregate([
             {
@@ -73,4 +74,5 @@ exports.borrowRoute.get('/summary', (req, res, next) => __awaiter(void 0, void 0
     catch (error) {
         next(error);
     }
-}));
+});
+exports.getBorrow = getBorrow;

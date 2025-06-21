@@ -11,8 +11,6 @@ const router = express.Router();
 app.use(express.json());
 app.use(router);
 
-// app.use("/api/books", booksRoute);
-// app.use("/api/borrow", borrowRoute)
 
 router.post("/api/books", createBook)
 router.get("/api/books", getBooks)

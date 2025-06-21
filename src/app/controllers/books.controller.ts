@@ -29,7 +29,7 @@ export const getBooks = async (req: Request, res: Response, next: NextFunction) 
         const filter = (req.query.filter as string) || undefined;
         const sortBy = (req.query.sortBy as string) || "createdAt";
         const sort = (req.query.sort as string) || "desc";
-        const limit = Number(req.query.limit) || 5;
+        const limit = Number(req.query.limit) || 10;
 
 
         const genreFilter = filter ? { genre: filter } : {};
