@@ -5,7 +5,7 @@ export const booksRoute = express.Router();
 
 
 // create book
-booksRoute.post('/create-book', async (req: Request, res: Response, next: NextFunction) => {
+export const createBook = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const body = req.body;
@@ -19,12 +19,12 @@ booksRoute.post('/create-book', async (req: Request, res: Response, next: NextFu
     } catch (error) {
         next(error)
     }
-});
+};
 
 
 
 // Get all books with support filtering and sorting
-booksRoute.get('/', async (req: Request, res: Response, next: NextFunction) => {
+export const getBooks = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const filter = (req.query.filter as string) || undefined;
         const sortBy = (req.query.sortBy as string) || "createdAt";
@@ -47,11 +47,11 @@ booksRoute.get('/', async (req: Request, res: Response, next: NextFunction) => {
     } catch (error) {
         next(error)
     }
-});
+};
 
 
 // get a single book
-booksRoute.get('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
+export const getSingleBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
         const book = await Books.findById(bookId);
@@ -64,11 +64,11 @@ booksRoute.get('/:bookId', async (req: Request, res: Response, next: NextFunctio
     } catch (error) {
         next(error)
     }
-})
+};
 
 
 // update a book
-booksRoute.put('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
+export const updateSingleBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
         const updatedBody = req.body;
@@ -82,11 +82,11 @@ booksRoute.put('/:bookId', async (req: Request, res: Response, next: NextFunctio
     } catch (error) {
         next(error)
     }
-})
+};
 
 
 // delete a book
-booksRoute.delete('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
+export const deleteSingleBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
 
@@ -102,4 +102,4 @@ booksRoute.delete('/:bookId', async (req: Request, res: Response, next: NextFunc
     } catch (error) {
         next()
     }
-})
+};

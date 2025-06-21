@@ -7,10 +7,10 @@ export const borrowRoute = express.Router()
 
 
 // borrow a book
-borrowRoute.post('/borrow-book', async (req: Request, res: Response, next: NextFunction) => {
+export const createBorrow = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { book, quantity, dueDate } = req.body;
-        const updateBook = await Books.borrowBook(book, quantity);
+        const updateBookAvailability = await Books.borrowBook(book, quantity);
 
         const borrow = await Borrow.create({ book, quantity, dueDate })
 
@@ -24,10 +24,10 @@ borrowRoute.post('/borrow-book', async (req: Request, res: Response, next: NextF
     } catch (error: any) {
         next(error)
     }
-})
+}
 
 // books borrow summary
-borrowRoute.get('/summary', async (req: Request, res: Response, next: NextFunction) => {
+export const getBorrow =  async (req: Request, res: Response, next: NextFunction) => {
     try {
         const summary = await Borrow.aggregate([
             {
@@ -66,4 +66,4 @@ borrowRoute.get('/summary', async (req: Request, res: Response, next: NextFuncti
     } catch (error: any) {
         next(error)
     }
-})
+}
