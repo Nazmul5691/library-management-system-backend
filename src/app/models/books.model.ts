@@ -1,6 +1,5 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Document } from "mongoose";
 import { IBooks } from "../interfaces/books.interface";
-
 
 export interface IBookDocument extends IBooks, Document { };
 

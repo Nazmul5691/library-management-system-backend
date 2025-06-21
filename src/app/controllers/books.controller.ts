@@ -1,24 +1,30 @@
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { Books } from '../models/books.model';
 
 export const booksRoute = express.Router();
 
 
 // create book
-booksRoute.post('/create-book', async (req: Request, res: Response) => {
-    const body = req.body;
-    const book = await Books.create(body);
+booksRoute.post('/create-book', async (req: Request, res: Response, next: NextFunction) => {
 
-    res.status(201).json({
-        success: true,
-        message: 'Book created successfully',
-        data: book
-    })
-})
+    try {
+        const body = req.body;
+        const book = await Books.create(body);
+
+        res.status(201).json({
+            success: true,
+            message: 'Book created successfully',
+            data: book
+        });
+    } catch (error) {
+        next(error)
+    }
+});
+
 
 
 // Get all books with support filtering and sorting
-booksRoute.get('/', async (req: Request, res: Response) => {
+booksRoute.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const filter = (req.query.filter as string) || undefined;
         const sortBy = (req.query.sortBy as string) || "createdAt";
@@ -39,17 +45,13 @@ booksRoute.get('/', async (req: Request, res: Response) => {
             data: books
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong",
-            error
-        });
+        next(error)
     }
 });
 
 
 // get a single book
-booksRoute.get('/:bookId', async (req: Request, res: Response) => {
+booksRoute.get('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
         const book = await Books.findById(bookId);
@@ -60,17 +62,13 @@ booksRoute.get('/:bookId', async (req: Request, res: Response) => {
             data: book
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong",
-            error
-        });
+        next(error)
     }
 })
 
 
 // update a book
-booksRoute.put('/:bookId', async (req: Request, res: Response) => {
+booksRoute.put('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
         const updatedBody = req.body;
@@ -82,22 +80,18 @@ booksRoute.put('/:bookId', async (req: Request, res: Response) => {
             data: book
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong",
-            error
-        });
+        next(error)
     }
 })
 
 
 // delete a book
-booksRoute.delete('/:bookId', async (req: Request, res: Response) => {
+booksRoute.delete('/:bookId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookId = req.params.bookId;
 
         // await Books.findByIdAndDelete(bookId);
-        await Books.findOneAndDelete({_id: bookId})
+        await Books.findOneAndDelete({ _id: bookId })
 
         res.status(200).json({
             success: true,
@@ -106,10 +100,6 @@ booksRoute.delete('/:bookId', async (req: Request, res: Response) => {
         })
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "something went wrong",
-            error
-        });
+        next()
     }
 })

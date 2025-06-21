@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { Borrow } from '../models/borrow.model';
 import { Books } from '../models/books.model';
 
@@ -6,7 +6,8 @@ import { Books } from '../models/books.model';
 export const borrowRoute = express.Router()
 
 
-borrowRoute.post('/borrow-book', async (req: Request, res: Response) => {
+// borrow a book
+borrowRoute.post('/borrow-book', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { book, quantity, dueDate } = req.body;
         const updateBook = await Books.borrowBook(book, quantity);
@@ -21,17 +22,12 @@ borrowRoute.post('/borrow-book', async (req: Request, res: Response) => {
         })
 
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-            error
-        });
+        next(error)
     }
 })
 
-
-
-borrowRoute.get('/summary', async (req: Request, res: Response) => {
+// books borrow summary
+borrowRoute.get('/summary', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const summary = await Borrow.aggregate([
             {
@@ -68,10 +64,6 @@ borrowRoute.get('/summary', async (req: Request, res: Response) => {
             data: summary
         });
     } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-            error
-        });
+        next(error)
     }
 })
