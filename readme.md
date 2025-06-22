@@ -62,7 +62,7 @@ npm run dev
 
 
 
-## 🧑‍💻 Scripts
+## Scripts
 
 ```json
 "scripts": {
@@ -146,7 +146,8 @@ npm run dev
   "genre": "FICTION",
   "isbn": "9780451524935",
   "description": "A dystopian social science fiction novel.",
-  "copies": 3
+  "copies": 3,
+  "available": true
 }
 
 ```
