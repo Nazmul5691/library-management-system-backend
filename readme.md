@@ -1,4 +1,4 @@
-# 📚 Library Management API (Assignment 3)
+# 📚 Library Management API
 
 A RESTful API for a Library Management System built with **Express**, **TypeScript**, and **MongoDB (Mongoose)**.
 
